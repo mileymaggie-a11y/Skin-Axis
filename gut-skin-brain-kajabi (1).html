@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Gut-Skin-Brain Axis | Complexions on the Hill</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sage: #7d9b76; --sage-light: #a8bf9f; --sage-dark: #4f6b4a;
+  --cream: #f7f3ee; --warm-white: #fdfaf6; --warm-tan: #d9ccba;
+  --text-dark: #2e2a25; --text-mid: #5a524a; --text-light: #9a8f84;
+  --border: rgba(125,155,118,0.25);
+  --teal: #0F6E56; --teal-light: #E1F5EE;
+  --green: #3B6D11; --green-light: #EAF3DE;
+  --coral: #993C1D; --coral-light: #FAECE7;
+  --amber: #854F0B; --amber-light: #FAEEDA;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text-dark); }
+
+.header { background: var(--warm-white); border-bottom: 1px solid var(--border); padding: 15px 28px; display: flex; align-items: center; gap: 13px; }
+.header-logo { width: 46px; height: 46px; background: linear-gradient(135deg, var(--sage), var(--sage-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.header-text h1 { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; }
+.header-text p { font-size: 10px; color: var(--text-light); letter-spacing: 1.3px; text-transform: uppercase; margin-top: 2px; font-weight: 300; }
+
+.hero { text-align: center; padding: 48px 24px 32px; max-width: 680px; margin: 0 auto; }
+.eyebrow { font-size: 10.5px; color: var(--sage-dark); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; margin-bottom: 10px; }
+.hero h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px,5vw,42px); font-weight: 300; line-height: 1.2; margin-bottom: 12px; }
+.hero h2 em { color: var(--sage-dark); font-style: italic; }
+.hero p { font-size: 14px; color: var(--text-mid); font-weight: 300; line-height: 1.7; margin-bottom: 14px; }
+.hint-pill { display: inline-flex; align-items: center; gap: 7px; background: rgba(125,155,118,0.1); border: 1px solid var(--sage-light); border-radius: 40px; padding: 8px 18px; font-size: 12px; color: var(--sage-dark); }
+
+.page { max-width: 700px; margin: 0 auto; padding: 0 20px 60px; }
+
+/* SECTION LABELS */
+.section-label { text-align: center; font-size: 11px; color: var(--text-light); letter-spacing: 2px; text-transform: uppercase; margin: 28px 0 16px; }
+.section-label span { display: inline-block; padding: 0 12px; background: var(--cream); position: relative; }
+.section-label::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--border); }
+
+/* NODE CARDS */
+.node-card {
+  border-radius: 14px;
+  padding: 20px 22px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1.5px solid;
+  position: relative;
+  user-select: none;
+}
+.node-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.1); }
+.node-card:active { transform: translateY(-1px); }
+.node-card .tap-hint { font-size: 10.5px; opacity: 0.7; margin-top: 6px; font-style: italic; }
+.node-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
+.node-card p { font-size: 12.5px; font-weight: 300; line-height: 1.5; }
+.node-card .arrow { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 18px; opacity: 0.5; }
+
+/* COLOR VARIANTS */
+.card-teal  { background: var(--teal-light);  border-color: var(--teal);  }
+.card-teal  h3, .card-teal  .tap-hint { color: #085041; }
+.card-teal  p { color: var(--teal); }
+.card-green { background: var(--green-light); border-color: var(--green); }
+.card-green h3, .card-green .tap-hint { color: #27500A; }
+.card-green p { color: var(--green); }
+.card-coral { background: var(--coral-light); border-color: var(--coral); }
+.card-coral h3, .card-coral .tap-hint { color: #712B13; }
+.card-coral p { color: var(--coral); }
+.card-amber { background: var(--amber-light); border-color: var(--amber); }
+.card-amber h3, .card-amber .tap-hint { color: #633806; }
+.card-amber p { color: var(--amber); }
+.card-sage  { background: rgba(125,155,118,0.08); border-color: var(--sage); }
+.card-sage  h3, .card-sage .tap-hint { color: var(--sage-dark); }
+.card-sage  p { color: var(--sage); }
+
+/* GRID LAYOUTS */
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; }
+@media(max-width:600px) { .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr 1fr; } }
+@media(max-width:400px) { .grid-3, .grid-2, .grid-4 { grid-template-columns: 1fr; } }
+
+/* CONNECTOR ARROWS */
+.connector { text-align: center; padding: 10px 0; font-size: 13px; color: var(--text-light); display: flex; align-items: center; justify-content: center; gap: 16px; }
+.connector-line { flex: 1; max-width: 80px; height: 1px; background: var(--border); }
+.connector-label { font-size: 10.5px; color: var(--sage); letter-spacing: 1px; text-transform: uppercase; }
+
+/* MAGGIE NOTE */
+.maggie-note { border-left: 3px solid var(--sage); background: rgba(125,155,118,0.06); border-radius: 0 12px 12px 0; padding: 18px 22px; margin-top: 28px; }
+.maggie-note .label { font-size: 9.5px; color: var(--sage-dark); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500; margin-bottom: 6px; }
+.maggie-note .text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--text-dark); line-height: 1.65; }
+
+/* FOOTER */
+.footer-card { background: var(--warm-white); border: 1px solid var(--border); border-left: 3px solid var(--sage); border-radius: 12px; padding: 20px 24px; margin-top: 32px; }
+.footer-card .label { font-size: 10px; color: var(--sage-dark); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500; margin-bottom: 7px; }
+.footer-card .quote { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--text-dark); line-height: 1.65; margin-bottom: 16px; }
+.footer-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.footer-btn { display: inline-flex; align-items: center; padding: 11px 22px; border-radius: 40px; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: all 0.2s; border: none; }
+.footer-btn.primary { background: var(--sage-dark); color: white; }
+.footer-btn.ghost { background: transparent; color: var(--sage-dark); border: 1.5px solid var(--sage-dark); }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(46,42,37,0.6); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--warm-white); border-radius: 20px; max-width: 520px; width: 100%; max-height: 88vh; overflow-y: auto; }
+.modal-bar { height: 6px; border-radius: 20px 20px 0 0; }
+.modal-body { padding: 26px 26px 30px; }
+.modal-eyebrow { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; margin-bottom: 7px; }
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; margin-bottom: 12px; line-height: 1.25; }
+.modal-desc { font-size: 13.5px; color: var(--text-mid); font-weight: 300; line-height: 1.75; margin-bottom: 16px; }
+.modal-points { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.modal-point { display: flex; gap: 10px; align-items: flex-start; }
+.modal-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.modal-pt { font-size: 13px; color: var(--text-mid); font-weight: 300; line-height: 1.6; }
+.modal-note { border-left: 3px solid var(--sage); background: rgba(125,155,118,0.06); border-radius: 0 10px 10px 0; padding: 13px 16px; margin-bottom: 18px; }
+.modal-note-label { font-size: 9px; color: var(--sage-dark); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500; margin-bottom: 5px; }
+.modal-note-text { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic; color: var(--text-dark); line-height: 1.6; }
+.modal-close-btn { width: 100%; padding: 13px; border: none; border-radius: 40px; font-family: 'Jost', sans-serif; font-size: 11.5px; font-weight: 500; letter-spacing: 1.4px; text-transform: uppercase; cursor: pointer; color: white; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">✦</div>
+  <div class="header-text">
+    <h1>Complexions on the Hill</h1>
+    <p>Maggie Miley Kelly · Licensed Esthetician · Educator · Author</p>
+  </div>
+</div>
+
+<div class="hero">
+  <p class="eyebrow">Your Skin on Stress · Module 03</p>
+  <h2>The Gut–Skin–<em>Brain Axis</em></h2>
+  <p>Your gut, skin and brain are in constant conversation. Stress disrupts all three at once — and healing one begins to heal the others.</p>
+  <span class="hint-pill">✦ Tap any card to explore that system</span>
+</div>
+
+<div class="page">
+
+  <!-- BRAIN -->
+  <div class="node-card card-teal" data-id="brain">
+    <div class="arrow">→</div>
+    <h3>Brain</h3>
+    <p>Hypothalamus · HPA axis · cortisol · stress command center</p>
+    <div class="tap-hint">Tap to explore the brain's role →</div>
+  </div>
+
+  <div class="connector">
+    <div class="connector-line"></div>
+    <span class="connector-label">CRH signal ↙&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cortisol ↘</span>
+    <div class="connector-line"></div>
+  </div>
+
+  <!-- GUT + SKIN -->
+  <div class="grid-2">
+    <div class="node-card card-green" data-id="gut">
+      <div class="arrow">→</div>
+      <h3>Gut microbiome</h3>
+      <p>Trillions of microbes regulate immunity · mood · inflammation</p>
+      <div class="tap-hint">Tap to explore →</div>
+    </div>
+    <div class="node-card card-coral" data-id="skin">
+      <div class="arrow">→</div>
+      <h3>Skin microbiome</h3>
+      <p>Barrier · immune defense · reflects internal imbalance</p>
+      <div class="tap-hint">Tap to explore →</div>
+    </div>
+  </div>
+
+  <div class="connector">
+    <div class="connector-line"></div>
+    <span class="connector-label">vagus nerve ↑&nbsp;&nbsp;&nbsp;shared immunity ↔&nbsp;&nbsp;&nbsp;neuropeptides ↑</span>
+    <div class="connector-line"></div>
+  </div>
+
+  <!-- VAGUS NERVE -->
+  <div class="node-card card-teal" data-id="vagus">
+    <div class="arrow">→</div>
+    <h3>The vagus nerve — the master connector</h3>
+    <p>Runs from brainstem to gut · carries 80% of signals upward · activated by breathing, touch and sound</p>
+    <div class="tap-hint">Tap to learn more →</div>
+  </div>
+
+  <!-- STRESS SECTION -->
+  <div class="section-label" style="position:relative;"><span>When under chronic stress</span></div>
+
+  <div class="grid-3">
+    <div class="node-card card-amber" data-id="gutdys">
+      <h3>Gut dysbiosis</h3>
+      <p>Stress kills beneficial bacteria · leaky gut</p>
+      <div class="tap-hint">Tap →</div>
+    </div>
+    <div class="node-card card-amber" data-id="barrier">
+      <h3>Barrier disruption</h3>
+      <p>Skin becomes porous · reactive · dehydrated</p>
+      <div class="tap-hint">Tap →</div>
+    </div>
+    <div class="node-card card-amber" data-id="neuro">
+      <h3>Neuroinflammation</h3>
+      <p>Brain fog · anxiety · heightened reactivity</p>
+      <div class="tap-hint">Tap →</div>
+    </div>
+  </div>
+
+  <!-- HEALING SECTION -->
+  <div class="section-label" style="position:relative;"><span>The healing opportunity</span></div>
+
+  <div class="node-card card-sage" data-id="healing" style="margin-bottom:12px;">
+    <div class="arrow">→</div>
+    <h3>Healing entry points</h3>
+    <p>Feed the gut · calm the nervous system · repair the skin barrier · all three respond together</p>
+    <div class="tap-hint">Tap to explore →</div>
+  </div>
+
+  <div class="grid-4">
+    <div class="node-card card-green" data-id="prob" style="padding:14px 16px;">
+      <h3 style="font-size:16px;">Probiotics</h3>
+      <p style="font-size:11px;">Feed good bacteria</p>
+      <div class="tap-hint" style="font-size:10px;">Tap →</div>
+    </div>
+    <div class="node-card card-teal" data-id="breath" style="padding:14px 16px;">
+      <h3 style="font-size:16px;">Breathwork</h3>
+      <p style="font-size:11px;">Activates vagus nerve</p>
+      <div class="tap-hint" style="font-size:10px;">Tap →</div>
+    </div>
+    <div class="node-card card-coral" data-id="skincare" style="padding:14px 16px;">
+      <h3 style="font-size:16px;">Gentle skincare</h3>
+      <p style="font-size:11px;">Protects skin biome</p>
+      <div class="tap-hint" style="font-size:10px;">Tap →</div>
+    </div>
+    <div class="node-card card-amber" data-id="sleep" style="padding:14px 16px;">
+      <h3 style="font-size:16px;">Sleep</h3>
+      <p style="font-size:11px;">Restores all three</p>
+      <div class="tap-hint" style="font-size:10px;">Tap →</div>
+    </div>
+  </div>
+
+  <!-- MAGGIE NOTE -->
+  <div class="maggie-note">
+    <div class="label">✦ Maggie's note</div>
+    <div class="text">You cannot truly heal the skin without considering the gut and the nervous system. This is why holistic skincare works — because it treats the whole system, not just the surface.</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-card">
+    <div class="label">✦ Continue Your Journey</div>
+    <div class="quote">"Healing is a whole system phenomenon. It begins with awareness and gains momentum through consistent, compassionate action."</div>
+    <div class="footer-btns">
+      <a class="footer-btn primary" href="https://www.schedulicity.com/scheduling/COCGMW" target="_blank">Book a Consultation</a>
+      <a class="footer-btn ghost" href="https://complexionsonthehill.com" target="_blank">Visit My Website</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-bar" id="modalBar"></div>
+    <div class="modal-body">
+      <div class="modal-eyebrow" id="modalEyebrow"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-points" id="modalPoints"></div>
+      <div class="modal-note">
+        <div class="modal-note-label">✦ A note from Maggie</div>
+        <div class="modal-note-text" id="modalMaggie"></div>
+      </div>
+      <button class="modal-close-btn" id="modalClose">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+
+var content = {
+  brain: {
+    color: '#0F6E56', bar: 'linear-gradient(90deg,#0F6E56,#1D9E75)',
+    eyebrow: 'The nervous system hub',
+    title: 'Brain & the HPA Axis',
+    desc: 'The brain — specifically the hypothalamus — is the command center of the stress response. The moment it perceives a threat, it activates the HPA axis: the Hypothalamic-Pituitary-Adrenal cascade that floods the body with cortisol.',
+    points: [
+      'The hypothalamus releases CRH, signaling the pituitary gland.',
+      'The pituitary releases ACTH, which triggers cortisol production in the adrenal glands.',
+      'The brain communicates with the gut via the vagus nerve — and receives signals back, creating a two-way loop.',
+      'Chronic stress keeps the HPA axis activated, meaning cortisol never fully clears — and the skin never fully recovers.'
+    ],
+    maggie: 'The brain does not distinguish between a real threat and a worried thought. Every anxious moment activates this cascade. Managing your inner world is the most powerful skincare tool you have.'
+  },
+  gut: {
+    color: '#3B6D11', bar: 'linear-gradient(90deg,#3B6D11,#639922)',
+    eyebrow: 'Your internal ecosystem',
+    title: 'The Gut Microbiome',
+    desc: 'Your gut contains trillions of microorganisms that collectively regulate your immune system, produce neurotransmitters like serotonin, and directly influence skin inflammation.',
+    points: [
+      '70% of your immune system lives in the gut. When gut bacteria are disrupted, inflamed skin often follows.',
+      'The gut produces about 95% of the body\'s serotonin. An unhealthy gut affects your mood — and your skin.',
+      'Stress kills beneficial bacteria and feeds pathogenic ones, creating leaky gut and systemic inflammation.',
+      'Healing the gut microbiome consistently improves skin conditions including acne, eczema and rosacea.'
+    ],
+    maggie: 'When a client\'s skin is persistently inflamed and not responding to topical treatments, I always ask about digestion. The skin is a mirror — and the gut is often doing the talking.'
+  },
+  skin: {
+    color: '#993C1D', bar: 'linear-gradient(90deg,#993C1D,#D85A30)',
+    eyebrow: 'Your outer nervous system',
+    title: 'The Skin Microbiome',
+    desc: 'Your skin is not just a passive barrier — it is an active immune organ with its own microbiome, nerve endings and communication pathways that connect directly to the brain and gut.',
+    points: [
+      'The skin contains over 1,000 nerve endings per square centimeter — one of the most sensitive sensory organs in the body.',
+      'Skin mast cells respond directly to stress signals, releasing histamine and cytokines that cause redness, itching and breakouts.',
+      'The skin microbiome can be disrupted by stress, harsh products, poor sleep and diet.',
+      'Neuropeptides released during stress travel from the skin to the brain, amplifying the stress response itself.'
+    ],
+    maggie: 'Your skin is always communicating. A breakout, a flush, a flare — these are not failures. They are messages. When we learn to read them, everything changes.'
+  },
+  vagus: {
+    color: '#0F6E56', bar: 'linear-gradient(90deg,#085041,#1D9E75)',
+    eyebrow: 'The master connector',
+    title: 'The Vagus Nerve',
+    desc: 'The vagus nerve is the longest cranial nerve in the body, running from the brainstem all the way to the gut. It is the physical highway of the gut-brain axis — and your most accessible pathway to healing.',
+    points: [
+      '80% of vagus nerve signals travel upward — from gut to brain. Your gut talks to your brain more than your brain talks to your gut.',
+      'When activated, it lowers heart rate, reduces cortisol and signals safety to every organ — including the skin.',
+      'Deep, slow breathing directly stimulates the vagus nerve — this is why breathwork produces such immediate calm.',
+      'Humming, singing, cold water on the face and mindful skincare all tone the vagus nerve.'
+    ],
+    maggie: 'Every slow, intentional breath during your skincare routine is a healing act for your entire nervous system. The ritual is not just emotional — it is physiological.'
+  },
+  gutdys: {
+    color: '#854F0B', bar: 'linear-gradient(90deg,#854F0B,#BA7517)',
+    eyebrow: 'Stress effect on the gut',
+    title: 'Gut Dysbiosis Under Stress',
+    desc: 'When stress is chronic, beneficial bacteria decline and pathogenic bacteria proliferate. This state of imbalance — called dysbiosis — shows up directly on your skin.',
+    points: [
+      'Cortisol creates leaky gut — undigested particles enter the bloodstream and trigger systemic inflammation.',
+      'Dysbiosis is associated with acne, eczema, psoriasis and rosacea.',
+      'Gut dysbiosis itself increases anxiety and stress reactivity, creating a self-reinforcing loop.',
+      'Probiotic foods and reducing sugar help restore balance with measurable skin improvement within weeks.'
+    ],
+    maggie: 'If your skin is not responding to topical treatments, look inward — literally. The answer is often in the gut. This is foundational to the holistic approach I take with every client.'
+  },
+  barrier: {
+    color: '#854F0B', bar: 'linear-gradient(90deg,#854F0B,#BA7517)',
+    eyebrow: 'Stress effect on the skin',
+    title: 'Skin Barrier Disruption',
+    desc: 'The skin barrier is your skin\'s most important protective structure. Chronic stress systematically dismantles it, leaving skin vulnerable, reactive and unable to hold moisture.',
+    points: [
+      'Cortisol suppresses ceramide production — the result is dry, porous, easily irritated skin.',
+      'A disrupted barrier means products once tolerated may suddenly cause stinging or breakouts.',
+      'Barrier disruption accelerates moisture loss regardless of how much moisturizer is applied.',
+      'Repair requires simplifying your routine, pausing exfoliants and using ceramides and peptides.'
+    ],
+    maggie: 'When a client\'s skin suddenly becomes reactive — stinging, flushing, not tolerating products it once loved — I always consider the barrier first. Stress is usually the silent culprit.'
+  },
+  neuro: {
+    color: '#854F0B', bar: 'linear-gradient(90deg,#854F0B,#BA7517)',
+    eyebrow: 'Stress effect on the brain',
+    title: 'Neuroinflammation',
+    desc: 'Chronic stress triggers inflammation in the brain itself — manifesting as brain fog, anxiety and a lowered threshold for perceiving threat.',
+    points: [
+      'Neuroinflammation amplifies stress — the brain becomes more sensitive, generating larger cortisol reactions to smaller triggers.',
+      'It is often visible on the face: persistent redness, reactive skin and chronic condition flares.',
+      'It disrupts sleep quality even when hours seem sufficient — and poor sleep is one of the most potent skin-agers.',
+      'Omega-3s, mindfulness, breathwork, movement and consistent sleep all reduce neuroinflammation.'
+    ],
+    maggie: 'This is why I always ask about mental health in consultations. The brain and the skin are not separate systems. What inflames one inflames both.'
+  },
+  healing: {
+    color: '#4f6b4a', bar: 'linear-gradient(90deg,#4f6b4a,#7d9b76)',
+    eyebrow: 'The recovery path',
+    title: 'Healing the Whole System',
+    desc: 'Because the gut, skin and brain are interconnected, healing one system supports the others. Every positive action ripples through the entire axis.',
+    points: [
+      'Healing is not linear — it happens in layers. Two steps forward, one step back. The trajectory is what matters.',
+      'The fastest path addresses all three simultaneously: gut nourishment, nervous system regulation and consistent skincare.',
+      'Professional treatments accelerate healing — they reduce inflammation and give the nervous system profound rest.',
+      'Consistency over intensity. A simple routine done daily heals more than an aggressive routine done occasionally.'
+    ],
+    maggie: 'Healing is a whole system phenomenon. It begins with awareness and gains momentum through consistent, compassionate action. Your skin will show you when you are on the right path.'
+  },
+  prob: {
+    color: '#3B6D11', bar: 'linear-gradient(90deg,#3B6D11,#639922)',
+    eyebrow: 'Healing pillar 1',
+    title: 'Probiotics & Gut Nourishment',
+    desc: 'Replenishing the gut microbiome is one of the most impactful steps you can take for skin health.',
+    points: [
+      'Probiotic-rich foods: live yogurt, kefir, sauerkraut, kimchi, kombucha, miso. Aim for one serving daily.',
+      'Prebiotic foods feed beneficial bacteria: garlic, onion, leeks, asparagus, bananas and oats.',
+      'Reduce sugar and processed foods — these drive dysbiosis and inflammation.',
+      'Lactobacillus strains improve acne, rosacea and skin hydration within 8 to 12 weeks of consistent use.'
+    ],
+    maggie: 'Before you add another product to your routine, add one probiotic food to your day. The results will show on your skin before they show anywhere else.'
+  },
+  breath: {
+    color: '#0F6E56', bar: 'linear-gradient(90deg,#085041,#1D9E75)',
+    eyebrow: 'Healing pillar 2',
+    title: 'Breathwork & Vagal Toning',
+    desc: 'Intentional breathing is the most direct way to activate the vagus nerve and shift from fight or flight to rest and heal.',
+    points: [
+      '4-7-8 breathing: inhale 4 counts, hold 7, exhale 8. Practice twice daily — especially before your skincare routine.',
+      'Box breathing (4-4-4-4) is excellent for acute stress. Repeat four times.',
+      'Diaphragmatic breathing is key — place a hand on your belly to ensure it rises on the inhale.',
+      'Even three slow deep breaths before cleansing activates the vagus nerve and signals the body it is safe to repair.'
+    ],
+    maggie: 'The breath is the bridge between the conscious mind and the autonomic nervous system. It is the only tool we have that works both involuntarily and intentionally. Use it.'
+  },
+  skincare: {
+    color: '#993C1D', bar: 'linear-gradient(90deg,#993C1D,#D85A30)',
+    eyebrow: 'Healing pillar 3',
+    title: 'Gentle, Intentional Skincare',
+    desc: 'When the skin is stressed, less is more. An overly aggressive routine further disrupts the barrier. Gentle, consistent care is what stressed skin needs most.',
+    points: [
+      'Simplify during high-stress periods. Cleanse, treat with one serum, moisturize and protect. That is enough.',
+      'Avoid exfoliants, retinols and strong actives when the barrier is compromised.',
+      'Slow, intentional application with upward strokes and gentle massage stimulates the vagus nerve.',
+      'Choose fragrance-free, barrier-supportive formulas that work with your skin rather than against it.'
+    ],
+    maggie: 'The best skincare routine is the one you will actually do. Especially when stressed. Make it simple, make it sacred, and show up for your skin consistently.'
+  },
+  sleep: {
+    color: '#854F0B', bar: 'linear-gradient(90deg,#854F0B,#BA7517)',
+    eyebrow: 'Healing pillar 4',
+    title: 'Sleep as Skin Medicine',
+    desc: 'During deep sleep, growth hormone surges, cortisol drops, inflammation resolves and the skin undergoes cellular regeneration that cannot happen during waking hours.',
+    points: [
+      'Apply your richest moisturizer before bed — barrier repair and cellular regeneration peak during sleep.',
+      'Cortisol should be lowest between midnight and 4am. Disrupted sleep keeps skin in chronic stress mode.',
+      'Even one night of poor sleep reduces skin hydration, increases inflammation and decreases radiance.',
+      'Sleep hygiene: consistent times, cool dark room, no screens 30 minutes before bed.'
+    ],
+    maggie: 'Sleep is the most underrated skincare product in existence. It is free, it is powerful, and nothing in a bottle can replicate what it does for your skin and your nervous system.'
+  }
+};
+
+function openModal(id) {
+  var d = content[id];
+  if (!d) return;
+  document.getElementById('modalBar').style.background = d.bar;
+  document.getElementById('modalEyebrow').textContent = d.eyebrow;
+  document.getElementById('modalEyebrow').style.color = d.color;
+  document.getElementById('modalTitle').textContent = d.title;
+  document.getElementById('modalTitle').style.color = d.color;
+  document.getElementById('modalDesc').textContent = d.desc;
+  var pts = document.getElementById('modalPoints');
+  pts.innerHTML = d.points.map(function(p) {
+    return '<div class="modal-point"><div class="modal-dot" style="background:' + d.color + '"></div><div class="modal-pt">' + p + '</div></div>';
+  }).join('');
+  document.getElementById('modalMaggie').textContent = d.maggie;
+  document.getElementById('modalClose').style.background = d.color;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.node-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      openModal(card.getAttribute('data-id'));
+    });
+  });
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+});
+
+})();
+</script>
+</body>
+</html>
